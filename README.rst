@@ -6,6 +6,8 @@ rod is an http server for you to use in your tests.
 Usage
 =====
 
+Using it is really simple::
+
     @with_rod
     def test_something(rod):
         rod.say(method="GET",

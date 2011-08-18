@@ -19,17 +19,38 @@ Using it is really simple::
 
 Or with PyVows::
 
-    class TestingGoogle(RodContext):
+    class TestingHelloWorld(RodContext):
+        def configure(self, rod):
+            rod.port = 2000
+
         def say(self, rod):
             rod.say(method="GET",
                 url="/hello.html",
                 body="Hello World")
 
         def topic(self):
-            return urlopen('http://localhost:%d/hello.html' % rod.port).read()
+            return urlopen('http://localhost:2000/hello.html').read()
 
         def should_not_be_empty(self, topic):
             expect(topic).not_to_be_empty()
 
         def should_be_equal_to_hello_world(self, topic):
             expect(topic).to_equal('Hello World')
+
+    class TestOtherRouteSamePort(RodContext):
+        def configure(self, rod):
+            rod.port = 2000
+
+        def say(self, rod):
+            rod.say(method="GET",
+                url="/other.html",
+                body="Other World")
+
+        def topic(self):
+            return urlopen('http://localhost:2000/other.html').read()
+
+        def should_not_be_empty(self, topic):
+            expect(topic).not_to_be_empty()
+
+        def should_be_equal_to_hello_world(self, topic):
+            expect(topic).to_equal('Other World')
